@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinControl Pro - Criar Conta</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left" style="background: linear-gradient(135deg, #0F172A 0%, #0369a1 100%);">
+            <div class="login-branding">
+                <div class="logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h1>FinControl <span>Pro</span></h1>
+                </div>
+                <p>Crie sua conta em menos de um minuto e assuma o controle total do seu destino financeiro.</p>
+                
+                <div class="glass-feature-card">
+                    <i class="fa-solid fa-lock text-secondary"></i>
+                    <div>
+                        <h4>Segurança de Nível Bancário</h4>
+                        <span>Seus dados são criptografados e totalmente isolados.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <div class="login-box glass-panel animate__animated animate__fadeInRight" style="max-width: 500px;">
+                <h2>Criar nova conta</h2>
+                <p class="subtitle">Comece sua jornada financeira inteligente</p>
+
+                <form id="registerForm">
+                    <div style="display: flex; gap: 16px;">
+                        <div class="input-group" style="flex: 1;">
+                            <label for="firstName">Nome</label>
+                            <input type="text" id="firstName" placeholder="João" required>
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <label for="lastName">Sobrenome</label>
+                            <input type="text" id="lastName" placeholder="Silva" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">E-mail</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" id="email" placeholder="seu@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Senha</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="password" placeholder="Mínimo 8 caracteres" required>
+                        </div>
+                        <div class="password-strength-wrapper" style="margin-top: 6px;">
+                            <div class="strength-bar" style="height: 4px; width: 100%; background: var(--border); border-radius: 2px; overflow: hidden;">
+                                <div id="strengthMeter" style="height: 100%; width: 0%; transition: all 0.3s ease; background: var(--error);"></div>
+                            </div>
+                            <span id="strengthText" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px;">Senha muito fraca</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="confirmPassword">Confirmar Senha</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <input type="password" id="confirmPassword" placeholder="Repita a senha" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions" style="margin-bottom: 20px;">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="termsAgreement" required>
+                            <span class="checkmark"></span>
+                            Aceito os <a href="#" style="color: var(--secondary); text-decoration: none; font-weight: 500;">Termos de Serviço</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="registerBtn">
+                        <span>Criar Conta</span>
+                        <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                </form>
+
+                <p class="register-link" style="margin-top: 24px;">Já possui uma conta? <a href="login.html">Fazer Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script type="module" src="js/firebase.js"></script>
+    <script type="module" src="js/register.js"></script>
+</body>
+</html>

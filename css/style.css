@@ -1,0 +1,60 @@
+/* Importando fonte moderna (Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Paleta de Cores - Tema Dark Financeiro */
+    --bg: #0f172a; /* Slate 900 */
+    --bg-secondary: #1e293b; /* Slate 800 */
+    --primary: #4f46e5; /* Índigo (Combina com suas partículas) */
+    --primary-hover: #4338ca;
+    --secondary: #06b6d4; /* Ciano */
+    --text: #f8fafc; /* Slate 50 */
+    --text-muted: #94a3b8; /* Slate 400 */
+    --cards: rgba(30, 41, 59, 0.7); /* Fundo com transparência para o Glassmorphism */
+    --border: rgba(255, 255, 255, 0.1);
+    --input-bg: rgba(15, 23, 42, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary);
+}
+
+/* Classes Utilitárias */
+.text-secondary {
+    color: var(--secondary);
+}
+
+/* Estilo do Loader do index.html */
+.loader {
+    border: 4px solid var(--cards);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
