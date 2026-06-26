@@ -30,195 +30,159 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item active"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-arrow-trend-up text-success"></i> <span>Receitas</span></a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-arrow-trend-down text-error"></i> <span>Despesas</span></a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-tags"></i> <span>Categorias</span></a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-bullseye"></i> <span>Metas</span></a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-file-invoice"></i> <span>Relatórios</span></a>
+                <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></a>
+                <a href="#" class="nav-item" data-view="receitas"><i class="fa-solid fa-arrow-trend-up text-success"></i> <span>Receitas</span></a>
+                <a href="#" class="nav-item" data-view="despesas"><i class="fa-solid fa-arrow-trend-down text-error"></i> <span>Despesas</span></a>
+                <a href="#" class="nav-item" data-view="categorias"><i class="fa-solid fa-tags"></i> <span>Categorias</span></a>
+                <a href="#" class="nav-item" data-view="metas"><i class="fa-solid fa-bullseye"></i> <span>Metas</span></a>
+                <a href="#" class="nav-item" data-view="relatorios"><i class="fa-solid fa-file-invoice"></i> <span>Relatórios</span></a>
             </nav>
 
             <div class="sidebar-footer">
-                <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
+                <a href="#" class="nav-item" data-view="configuracoes"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
                 <a href="#" class="nav-item" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> <span>Sair</span></a>
             </div>
         </aside>
 
-     <div id="pageLoader" class="page-loader">
-    <div class="loader-spinner"></div>
-    <p>Carregando seus dados...</p>
-</div>
-
-<div class="dashboard-layout">
-    <aside class="sidebar glass-panel" id="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <i class="fa-solid fa-wallet"></i>
-                <h2>FinControl</h2>
-            </div>
-            <button id="toggleSidebar" class="mobile-toggle"><i class="fa-solid fa-bars"></i></button>
-        </div>
-
-        <!-- Adicionado data-view para a lógica de SPA -->
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-item active" data-view="dashboard"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></a>
-            <a href="#" class="nav-item" data-view="receitas"><i class="fa-solid fa-arrow-trend-up text-success"></i> <span>Receitas</span></a>
-            <a href="#" class="nav-item" data-view="despesas"><i class="fa-solid fa-arrow-trend-down text-error"></i> <span>Despesas</span></a>
-            <a href="#" class="nav-item" data-view="categorias"><i class="fa-solid fa-tags"></i> <span>Categorias</span></a>
-            <a href="#" class="nav-item" data-view="metas"><i class="fa-solid fa-bullseye"></i> <span>Metas</span></a>
-            <a href="#" class="nav-item" data-view="relatorios"><i class="fa-solid fa-file-invoice"></i> <span>Relatórios</span></a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <a href="#" class="nav-item" data-view="configuracoes"><i class="fa-solid fa-gear"></i> <span>Configurações</span></a>
-            <a href="#" class="nav-item" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> <span>Sair</span></a>
-        </div>
-    </aside>
-
-    <main class="main-content">
-        <header class="topbar glass-panel animate__animated animate__fadeInDown">
-            <div class="topbar-left">
-                <h1 class="page-title" id="pageTitle">Visão Geral</h1>
-                <p class="current-date" id="currentDate">Carregando data...</p>
-            </div>
-            
-            <div class="topbar-right">
-                <button class="btn-icon"><i class="fa-regular fa-bell"></i></button>
-                <div class="user-profile">
-                    <div class="user-info">
-                        <span class="user-name" id="displayUserName">Usuário</span>
-                        <span class="user-plan">Premium</span>
-                    </div>
-                    <!-- Foto padrão de fallback -->
-                    <img src="https://ui-avatars.com/api/?name=User&background=4F46E5&color=fff" alt="Perfil" id="displayUserPhoto" class="user-avatar">
+        <main class="main-content">
+            <header class="topbar glass-panel animate__animated animate__fadeInDown">
+                <div class="topbar-left">
+                    <h1 class="page-title" id="pageTitle">Visão Geral</h1>
+                    <p class="current-date" id="currentDate">Carregando data...</p>
                 </div>
-            </div>
-        </header>
-
-        <!-- SEÇÃO: DASHBOARD -->
-        <div id="view-dashboard" class="view-section active">
-            <section class="summary-cards">
-                <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-                    <div class="card-icon bg-primary-light"><i class="fa-solid fa-building-columns text-primary"></i></div>
-                    <div class="card-details">
-                        <p>Saldo Atual</p>
-                        <h3 id="cardSaldo">R$ 0,00</h3>
+                
+                <div class="topbar-right">
+                    <button class="btn-icon"><i class="fa-regular fa-bell"></i></button>
+                    <div class="user-profile">
+                        <div class="user-info">
+                            <span class="user-name" id="displayUserName">Usuário</span>
+                            <span class="user-plan">Premium</span>
+                        </div>
+                        <img src="https://ui-avatars.com/api/?name=User&background=4F46E5&color=fff" alt="Perfil" id="displayUserPhoto" class="user-avatar">
                     </div>
                 </div>
+            </header>
 
-                <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-                    <div class="card-icon bg-success-light"><i class="fa-solid fa-arrow-trend-up text-success"></i></div>
-                    <div class="card-details">
-                        <p>Receitas (Mês)</p>
-                        <h3 id="cardReceitas">R$ 0,00</h3>
+            <div id="view-dashboard" class="view-section active">
+                <section class="summary-cards">
+                    <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+                        <div class="card-icon bg-primary-light"><i class="fa-solid fa-building-columns text-primary"></i></div>
+                        <div class="card-details">
+                            <p>Saldo Atual</p>
+                            <h3 id="cardSaldo">R$ 0,00</h3>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
-                    <div class="card-icon bg-error-light"><i class="fa-solid fa-arrow-trend-down text-error"></i></div>
-                    <div class="card-details">
-                        <p>Despesas (Mês)</p>
-                        <h3 id="cardDespesas">R$ 0,00</h3>
+                    <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                        <div class="card-icon bg-success-light"><i class="fa-solid fa-arrow-trend-up text-success"></i></div>
+                        <div class="card-details">
+                            <p>Receitas (Mês)</p>
+                            <h3 id="cardReceitas">R$ 0,00</h3>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
-                    <div class="card-icon bg-secondary-light"><i class="fa-solid fa-piggy-bank text-secondary"></i></div>
-                    <div class="card-details">
-                        <p>Balanço (%)</p>
-                        <h3 id="cardEconomia">0%</h3>
+                    <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+                        <div class="card-icon bg-error-light"><i class="fa-solid fa-arrow-trend-down text-error"></i></div>
+                        <div class="card-details">
+                            <p>Despesas (Mês)</p>
+                            <h3 id="cardDespesas">R$ 0,00</h3>
+                        </div>
                     </div>
-                </div>
-            </section>
 
-            <section class="quick-actions animate__animated animate__fadeIn">
-                <button class="btn-primary btn-success" id="btnNovaReceita">
-                    <i class="fa-solid fa-plus"></i> Nova Receita
-                </button>
-                <button class="btn-primary btn-danger" id="btnNovaDespesa">
-                    <i class="fa-solid fa-minus"></i> Nova Despesa
-                </button>
-            </section>
+                    <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+                        <div class="card-icon bg-secondary-light"><i class="fa-solid fa-piggy-bank text-secondary"></i></div>
+                        <div class="card-details">
+                            <p>Balanço (%)</p>
+                            <h3 id="cardEconomia">0%</h3>
+                        </div>
+                    </div>
+                </section>
 
-            <div class="dashboard-grid">
-                <!-- AQUI ESTÁ A CORREÇÃO DO BUG DO CHART.JS: Container com position e altura fixa -->
-                <div class="chart-container glass-panel animate__animated animate__fadeInLeft">
-                    <div class="section-header">
-                        <h3>Fluxo de Caixa</h3>
-                    </div>
-                    <div style="position: relative; height: 300px; width: 100%;">
-                        <canvas id="cashflowChart"></canvas>
-                    </div>
-                </div>
+                <section class="quick-actions animate__animated animate__fadeIn">
+                    <button class="btn-primary btn-success" id="btnNovaReceita">
+                        <i class="fa-solid fa-plus"></i> Nova Receita
+                    </button>
+                    <button class="btn-primary btn-danger" id="btnNovaDespesa">
+                        <i class="fa-solid fa-minus"></i> Nova Despesa
+                    </button>
+                </section>
 
-                <div class="chart-container glass-panel animate__animated animate__fadeInRight">
-                    <div class="section-header">
-                        <h3>Despesas por Categoria</h3>
+                <div class="dashboard-grid">
+                    <div class="chart-container glass-panel animate__animated animate__fadeInLeft">
+                        <div class="section-header">
+                            <h3>Fluxo de Caixa</h3>
+                        </div>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="cashflowChart"></canvas>
+                        </div>
                     </div>
-                    <div style="position: relative; height: 300px; width: 100%;">
-                        <canvas id="categoryChart"></canvas>
-                    </div>
-                </div>
 
-                <div class="table-container glass-panel animate__animated animate__fadeInUp full-width">
-                    <div class="section-header">
-                        <h3>Movimentações Recentes</h3>
+                    <div class="chart-container glass-panel animate__animated animate__fadeInRight">
+                        <div class="section-header">
+                            <h3>Despesas por Categoria</h3>
+                        </div>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
                     </div>
-                    <div class="table-responsive">
-                        <table id="transactionsTable">
-                            <thead>
-                                <tr>
-                                    <th>Descrição</th>
-                                    <th>Categoria</th>
-                                    <th>Data</th>
-                                    <th>Valor</th>
-                                    <th>Tipo</th>
-                                </tr>
-                            </thead>
-                            <tbody id="transactionsBody">
-                                <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Nenhuma movimentação encontrada.</td></tr>
-                            </tbody>
-                        </table>
+
+                    <div class="table-container glass-panel animate__animated animate__fadeInUp full-width">
+                        <div class="section-header">
+                            <h3>Movimentações Recentes</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="transactionsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Descrição</th>
+                                        <th>Categoria</th>
+                                        <th>Data</th>
+                                        <th>Valor</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionsBody">
+                                    <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Nenhuma movimentação encontrada.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- SEÇÕES SECUNDÁRIAS (SPA) -->
-        <div id="view-receitas" class="view-section" style="display: none;">
-            <div class="glass-panel" style="padding: 30px; text-align: center;">
-                <h2>Gestão de Receitas</h2>
-                <p class="text-muted">Aqui você poderá gerenciar todas as suas entradas detalhadamente.</p>
-                <button class="btn-primary btn-success" style="width: auto; margin: 20px auto;" onclick="document.getElementById('btnNovaReceita').click()">Adicionar Receita</button>
+            <div id="view-receitas" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 30px; text-align: center;">
+                    <h2>Gestão de Receitas</h2>
+                    <p class="text-muted">Aqui você poderá gerenciar todas as suas entradas detalhadamente.</p>
+                    <button class="btn-primary btn-success" style="width: auto; margin: 20px auto;" onclick="document.getElementById('btnNovaReceita').click()">Adicionar Receita</button>
+                </div>
             </div>
-        </div>
 
-        <div id="view-despesas" class="view-section" style="display: none;">
-            <div class="glass-panel" style="padding: 30px; text-align: center;">
-                <h2>Gestão de Despesas</h2>
-                <p class="text-muted">Controle seus gastos e saídas de caixa.</p>
-                <button class="btn-primary btn-danger" style="width: auto; margin: 20px auto;" onclick="document.getElementById('btnNovaDespesa').click()">Adicionar Despesa</button>
+            <div id="view-despesas" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 30px; text-align: center;">
+                    <h2>Gestão de Despesas</h2>
+                    <p class="text-muted">Controle seus gastos e saídas de caixa.</p>
+                    <button class="btn-primary btn-danger" style="width: auto; margin: 20px auto;" onclick="document.getElementById('btnNovaDespesa').click()">Adicionar Despesa</button>
+                </div>
             </div>
-        </div>
 
-        <div id="view-categorias" class="view-section" style="display: none;">
-            <div class="glass-panel" style="padding: 30px; text-align: center;"><h2>Categorias Personalizadas</h2><p>Módulo em desenvolvimento.</p></div>
-        </div>
+            <div id="view-categorias" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 30px; text-align: center;"><h2>Categorias Personalizadas</h2><p>Módulo em desenvolvimento.</p></div>
+            </div>
 
-        <div id="view-metas" class="view-section" style="display: none;">
-            <div class="glass-panel" style="padding: 30px; text-align: center;"><h2>Metas Financeiras</h2><p>Módulo em desenvolvimento.</p></div>
-        </div>
+            <div id="view-metas" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 30px; text-align: center;"><h2>Metas Financeiras</h2><p>Módulo em desenvolvimento.</p></div>
+            </div>
 
-        <div id="view-relatorios" class="view-section" style="display: none;">
-            <div class="glass-panel" style="padding: 30px; text-align: center;"><h2>Relatórios Avançados</h2><p>Módulo em desenvolvimento.</p></div>
-        </div>
+            <div id="view-relatorios" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 30px; text-align: center;"><h2>Relatórios Avançados</h2><p>Módulo em desenvolvimento.</p></div>
+            </div>
 
-        <div id="view-configuracoes" class="view-section" style="display: none;">
-            <div class="glass-panel" style="padding: 30px; text-align: center;"><h2>Configurações do Perfil</h2><p>Módulo em desenvolvimento.</p></div>
-        </div>
+            <div id="view-configuracoes" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 30px; text-align: center;"><h2>Configurações do Perfil</h2><p>Módulo em desenvolvimento.</p></div>
+            </div>
 
-    </main>
-</div>
+        </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
