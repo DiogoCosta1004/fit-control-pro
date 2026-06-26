@@ -198,8 +198,33 @@
             <!-- Outras abas (Receitas, Despesas, Categorias, Relatórios) seguem a mesma lógica estrutural -->
              <div id="view-receitas" class="view-section"><div class="toolbar"><h3 style="font-weight: 600;">Gestão de Receitas</h3></div><div class="table-container glass-panel"><div class="table-responsive"><table id="tableReceitas"><thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Valor</th><th>Ações</th></tr></thead><tbody></tbody></table></div></div></div>
              <div id="view-despesas" class="view-section"><div class="toolbar"><h3 style="font-weight: 600;">Gestão de Despesas</h3></div><div class="table-container glass-panel"><div class="table-responsive"><table id="tableDespesas"><thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Valor</th><th>Ações</th></tr></thead><tbody></tbody></table></div></div></div>
-             <div id="view-categorias" class="view-section"><div class="glass-panel" style="padding: 40px; text-align: center; border-radius: 20px;"><i class="fa-solid fa-tags" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i><h2>Controle de Orçamento</h2></div></div>
-             <div id="view-relatorios" class="view-section"><div class="glass-panel" style="padding: 40px; text-align: center; border-radius: 20px;"><i class="fa-solid fa-chart-area" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i><h2>Relatórios Avançados</h2></div></div>
+   <!-- ABA: TETO DE GASTOS E ORÇAMENTO -->
+            <div id="view-categorias" class="view-section">
+                <div class="toolbar">
+                    <h3 style="font-weight: 600;">Controle de Orçamento Mensal</h3>
+                    <button class="btn-modern btn-success-gradient" style="padding: 12px 20px;" onclick="window.configurarTetoGastos()"><i class="fa-solid fa-gear"></i> Definir Teto</button>
+                </div>
+                
+                <div class="dashboard-grid" style="grid-template-columns: 1fr; max-width: 600px; margin: 0 auto;">
+                    <div class="budget-card animate__animated animate__fadeInUp">
+                        <div class="budget-circle" id="budgetVisual">
+                            <h2 id="budgetPercent">0%</h2>
+                            <span>Utilizado</span>
+                        </div>
+                        <h3 style="margin-bottom: 8px;">Resumo do Mês</h3>
+                        <p class="text-muted" style="margin-bottom: 24px;">Você gastou <strong id="budgetGasto" style="color: var(--text);">R$ 0,00</strong> do seu teto de <strong id="budgetLimite">R$ 0,00</strong>.</p>
+                        
+                        <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 16px; text-align: left;">
+                            <h4 style="font-size: 0.9rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fa-solid fa-robot text-secondary"></i> Análise da FinAI
+                            </h4>
+                            <p id="budgetAiInsight" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+                                Defina seu teto de gastos para que eu possa analisar seu ritmo de consumo e proteger seus investimentos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </main>
     </div>

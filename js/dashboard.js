@@ -646,4 +646,126 @@ filterBtns.forEach(btn => {
         });
     });
 });
+
+// ==========================================
+// 8. TETO DE GASTOS E IA FINANCEIRA (O CÉREBRO)
+// ==========================================
+let tetoMensal = 3000; // Valor padrão temporário (depois salvaremos isso no Firebase do usuário)
+
+// Atualiza o círculo de Teto de Gastos
+function atualizarOrcamentoMensal() {
+    // Filtra apenas despesas do mês atual
+    const mesAtual = new Date().toISOString().slice(0, 7); // "YYYY-MM"
+    const gastosDoMes = state.transacoes
+        .filter(t => t.tipo === 'despesa' && t.data.startsWith(mesAtual))
+        .reduce((acc, t) => acc + t.valor, 0);
+
+    const percentual = tetoMensal > 0 ? ((gastosDoMes / tetoMensal) * 100).toFixed(0) : 0;
+    
+    // Atualiza Textos
+    document.getElementById('budgetGasto').innerText = formatBRL(gastosDoMes);
+    document.getElementById('budgetLimite').innerText = formatBRL(tetoMensal);
+    document.getElementById('budgetPercent').innerText = `${percentual}%`;
+
+    // Atualiza Cores Visuais (Verde -> Amarelo -> Vermelho)
+    const circle = document.getElementById('budgetVisual');
+    const aiInsight = document.getElementById('budgetAiInsight');
+    circle.className = 'budget-circle'; // Reseta
+
+    if (percentual < 70) {
+        // Tudo tranquilo
+        circle.style.borderColor = 'var(--success)';
+        aiInsight.innerText = "Excelente ritmo! Mantendo essa disciplina, sobrará um ótimo valor para focar nas suas metas e investir pesado em renda fixa neste mês.";
+    } else if (percentual < 90) {
+        // Alerta
+        circle.classList.add('warning');
+        aiInsight.innerText = "Atenção: Você está se aproximando do limite estipulado. Considere segurar gastos não essenciais (como Lazer) nas próximas semanas.";
+    } else {
+        // Perigo
+        circle.classList.add('danger');
+        aiInsight.innerText = "Alerta Crítico: Seu teto estourou ou está no limite! Isso compromete sua capacidade de poupar. Evite qualquer compra até a virada do mês.";
+    }
+}
+
+// Chame essa função dentro da `iniciarEscutaTransacoes`, logo após o `renderizarTabelas();`
+// atualizarOrcamentoMensal();
+
+window.configurarTetoGastos = function() {
+    Swal.fire({
+        title: 'Definir Teto de Gastos',
+        input: 'number',
+        inputLabel: 'Qual o valor máximo que você deseja gastar por mês?',
+        inputValue: tetoMensal,
+        background: '#1E293B',
+        color: '#FFF',
+        showCancelButton: true,
+        confirmButtonColor: '#10B981',
+        confirmButtonText: 'Salvar Limite',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            tetoMensal = parseFloat(result.value);
+            atualizarOrcamentoMensal();
+            Toast.fire({ icon: 'success', title: 'Teto de gastos atualizado!' });
+            // Futuramente: salvar updateDoc no Firestore (users/uid)
+        }
+    });
+};
+
+// ==========================================
+// INTEGRAÇÃO REAL DA IA NO CHAT FLUTUANTE
+// ==========================================
+function construirContextoDaIA() {
+    // Essa função lê os dados reais do Diogo e monta o prompt
+    const saldo = document.getElementById('cardSaldo').innerText;
+    const despesas = document.getElementById('cardDespesas').innerText;
+    const metasText = state.metas.map(m => `${m.titulo} (${formatBRL(m.valorAtual)}/${formatBRL(m.valorAlvo)})`).join(", ");
+
+    return `
+        Contexto do Usuário:
+        - Saldo Atual: ${saldo}
+        - Despesas do Mês: ${despesas}
+        - Teto de Gastos Mensal: ${formatBRL(tetoMensal)}
+        - Metas Ativas: ${metasText || 'Nenhuma meta'}
+        
+        Você é a FinAI, uma assistente financeira rigorosa, porém amigável. Dê respostas curtas, diretas (máx 3 frases) baseadas exatemente nos números acima.
+    `;
+}
+
+function enviarMensagemIA() {
+    const msg = aiInputMsg.value.trim();
+    if(!msg) return;
+
+    aiChatBody.innerHTML += `<div class="ai-msg user">${msg}</div>`;
+    aiInputMsg.value = '';
+    aiChatBody.scrollTop = aiChatBody.scrollHeight;
+
+    const typingId = 'typing-' + Date.now();
+    setTimeout(() => {
+        aiChatBody.innerHTML += `
+            <div class="ai-msg bot" id="${typingId}">
+                <div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+            </div>`;
+        aiChatBody.scrollTop = aiChatBody.scrollHeight;
+        
+        // AQUI ENTRA A CHAMADA DE API REAL (Fetch para Gemini/OpenAI)
+        // Como ainda não plugamos a chave de API, vamos simular a inteligência processando o contexto:
+        const contexto = construirContextoDaIA();
+        console.log("Prompt enviado para API:", contexto + "\nPergunta: " + msg);
+
+        setTimeout(() => {
+            document.getElementById(typingId).remove();
+            
+            // Resposta simulada ultra-contextualizada baseada no estado da aplicação
+            let respostaIA = "";
+            if (msg.toLowerCase().includes("gastar") || msg.toLowerCase().includes("comprar")) {
+                respostaIA = `Cuidado! Lembre-se que você já atingiu boa parte do seu teto mensal. Se você evitar essa compra agora e redirecionar para um CDB ou Tesouro Direto, estará um passo mais perto de concretizar a sua meta da Casa em Fortaleza para 2029!`;
+            } else {
+                respostaIA = `Analisando seus dados... Seus gastos estão dentro do esperado. Recomendo sempre separar no mínimo 20% das suas receitas assim que elas caírem na conta para garantir os aportes nas suas metas!`;
+            }
+
+            aiChatBody.innerHTML += `<div class="ai-msg bot">${respostaIA}</div>`;
+            aiChatBody.scrollTop = aiChatBody.scrollHeight;
+        }, 2000);
+    }, 400);
+}
 }

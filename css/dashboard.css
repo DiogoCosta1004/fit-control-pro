@@ -286,3 +286,37 @@ th { color: var(--text-muted); font-weight: 500; font-size: 0.875rem; text-trans
 }
 
 .close-chat-mobile { display: none; }
+
+/* --- TETO DE GASTOS & GAMIFICAÇÃO --- */
+.budget-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.budget-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 12px solid var(--success);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 24px;
+    transition: border-color 0.4s ease;
+}
+.budget-circle.warning { border-color: var(--warning); }
+.budget-circle.danger { border-color: var(--error); }
+.budget-circle h2 { font-size: 1.8rem; margin: 0; }
+.budget-circle span { font-size: 0.8rem; color: var(--text-muted); }
+
+/* --- EFEITO DIGITANDO DA IA --- */
+.typing-indicator { display: inline-flex; gap: 4px; padding: 4px 8px; }
+.typing-dot { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+@keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
