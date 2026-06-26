@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FinControl Pro - Dashboard</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,20 +14,20 @@
     
     <style>
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
-        .search-box { display: flex; align-items: center; background: rgba(15, 23, 42, 0.6); padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border); width: 300px; }
-        .search-box input { background: transparent; border: none; color: var(--text); margin-left: 10px; width: 100%; outline: none; }
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 24px; }
-        .progress-card { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+        .search-box { display: flex; align-items: center; background: rgba(15, 23, 42, 0.6); padding: 12px 16px; border-radius: 16px; border: 1px solid var(--border); width: 100%; max-width: 350px; }
+        .search-box input { background: transparent; border: none; color: var(--text); margin-left: 10px; width: 100%; outline: none; font-size: 1rem;}
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .progress-card { padding: 20px; display: flex; flex-direction: column; gap: 16px; border-radius: 20px;}
         .progress-header { display: flex; justify-content: space-between; align-items: center; }
-        .progress-header h4 { font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .progress-header h4 { font-size: 1.05rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .progress-bar-bg { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; }
         .progress-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
         .progress-stats { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); }
-        .settings-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; }
-        .profile-card { text-align: center; padding: 32px; }
-        .profile-card img { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--primary); margin-bottom: 16px; }
-        .form-panel { padding: 32px; }
-        @media (max-width: 768px) { .settings-grid { grid-template-columns: 1fr; } .search-box { width: 100%; } }
+        .settings-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; }
+        .profile-card { text-align: center; padding: 24px; border-radius: 24px;}
+        .profile-card img { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--primary); margin-bottom: 16px; }
+        .form-panel { padding: 24px; border-radius: 24px; }
+        @media (max-width: 768px) { .settings-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body class="dashboard-body">
@@ -37,14 +37,17 @@
         <p>Carregando ecossistema...</p>
     </div>
 
+    <!-- OVERLAY PARA O MENU MOBILE -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <div class="dashboard-layout">
-        <aside class="sidebar glass-panel" id="sidebar">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
-                    <i class="fa-solid fa-wallet"></i>
+                    <i class="fa-solid fa-wallet text-primary"></i>
                     <h2>FinControl</h2>
                 </div>
-                <button id="toggleSidebar" class="mobile-toggle"><i class="fa-solid fa-bars"></i></button>
             </div>
 
             <nav class="sidebar-nav">
@@ -62,11 +65,17 @@
             </div>
         </aside>
 
+        <!-- MAIN CONTENT -->
         <main class="main-content">
-            <header class="topbar glass-panel animate__animated animate__fadeInDown">
+            <header class="topbar animate__animated animate__fadeInDown">
                 <div class="topbar-left">
-                    <h1 class="page-title" id="pageTitle">Visão Geral</h1>
-                    <p class="current-date" id="currentDate">Carregando data...</p>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <button id="toggleSidebar" class="mobile-toggle"><i class="fa-solid fa-bars"></i></button>
+                        <div>
+                            <h1 class="page-title" id="pageTitle">Visão Geral</h1>
+                            <p class="current-date" id="currentDate">Carregando data...</p>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="topbar-right">
@@ -76,16 +85,17 @@
                         <button class="filter-btn" data-period="anual">Anual</button>
                     </div>
 
-                    <div class="user-profile" style="margin-left: 16px;">
+                    <div class="user-profile">
                         <div class="user-info">
-                            <span class="user-name" id="displayUserName">Carregando...</span>
+                            <span class="user-name" id="displayUserName">Diogo</span>
                             <span class="user-plan">Pro</span>
                         </div>
-                        <img src="https://ui-avatars.com/api/?name=User&background=4F46E5&color=fff" alt="Perfil" id="displayUserPhoto" class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Diogo&background=4F46E5&color=fff" alt="Perfil" id="displayUserPhoto" class="user-avatar">
                     </div>
                 </div>
             </header>
 
+            <!-- ABA: DASHBOARD -->
             <div id="view-dashboard" class="view-section active">
                 <section class="summary-cards">
                     <div class="card glass-panel">
@@ -107,8 +117,8 @@
                 </section>
 
                 <section class="quick-actions">
-                    <button class="btn-primary btn-success" id="btnNovaReceita"><i class="fa-solid fa-plus"></i> Nova Receita</button>
-                    <button class="btn-primary btn-danger" id="btnNovaDespesa"><i class="fa-solid fa-minus"></i> Nova Despesa</button>
+                    <button class="btn-modern btn-success-gradient" id="btnNovaReceita"><i class="fa-solid fa-plus-circle"></i> Nova Receita</button>
+                    <button class="btn-modern btn-danger-gradient" id="btnNovaDespesa"><i class="fa-solid fa-minus-circle"></i> Nova Despesa</button>
                 </section>
 
                 <div class="dashboard-grid">
@@ -136,61 +146,34 @@
                 </div>
             </div>
 
-            <div id="view-receitas" class="view-section">
-                <div class="toolbar">
-                    <h3 style="font-weight: 600;">Gestão de Receitas</h3>
-                    <button class="btn-primary btn-success" style="width: auto;" onclick="document.getElementById('btnNovaReceita').click()"><i class="fa-solid fa-plus"></i> Nova Receita</button>
-                </div>
-                <div class="table-container glass-panel">
-                    <div class="table-responsive">
-                        <table>
-                            <thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Status</th><th>Valor</th><th>Ações</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="view-despesas" class="view-section">
-                <div class="toolbar">
-                    <h3 style="font-weight: 600;">Gestão de Despesas</h3>
-                    <button class="btn-primary btn-danger" style="width: auto;" onclick="document.getElementById('btnNovaDespesa').click()"><i class="fa-solid fa-minus"></i> Nova Despesa</button>
-                </div>
-                <div class="table-container glass-panel">
-                    <div class="table-responsive">
-                        <table>
-                            <thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Status</th><th>Valor</th><th>Ações</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="view-categorias" class="view-section">
-                <div class="glass-panel" style="padding: 40px; text-align: center; border-radius: 20px;">
-                    <i class="fa-solid fa-tags" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
-                    <h2>Controle de Orçamento</h2>
-                    <p class="text-muted">Integração do motor de limites visuais em desenvolvimento.</p>
-                </div>
-            </div>
-
+            <!-- ABA: METAS (Com Dados Pessoais Mockados para UI) -->
             <div id="view-metas" class="view-section">
                 <div class="toolbar">
                     <h3 style="font-weight: 600;">Seus Objetivos</h3>
-                    <button class="btn-primary btn-success" style="width: auto;"><i class="fa-solid fa-flag-checkered"></i> Nova Meta</button>
+                    <button class="btn-modern btn-success-gradient" style="padding: 12px 20px; font-size: 0.9rem;" onclick="window.openMetaModal()"><i class="fa-solid fa-flag-checkered"></i> Nova Meta</button>
                 </div>
-                <div class="grid-cards">
+                <div class="grid-cards" id="metasContainer">
+                    <!-- Cards renderizados dinamicamente pelo JS. Mock temporário abaixo: -->
+                    <div class="progress-card glass-panel">
+                        <div class="progress-header">
+                            <h4><i class="fa-solid fa-house-chimney text-secondary"></i> Casa em Fortaleza</h4>
+                            <span class="text-secondary" style="font-weight: 700;">25%</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 25%; background: var(--secondary);"></div></div>
+                        <div class="progress-stats"><span>Acumulado: R$ 37.500,00</span><span>Alvo: R$ 150.000,00 (2029)</span></div>
                     </div>
-            </div>
-
-            <div id="view-relatorios" class="view-section">
-                <div class="glass-panel" style="padding: 40px; text-align: center; border-radius: 20px;">
-                    <i class="fa-solid fa-chart-area" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
-                    <h2>Relatórios Avançados</h2>
-                    <p class="text-muted">Exportação PDF e Dre em breve.</p>
+                    <div class="progress-card glass-panel">
+                        <div class="progress-header">
+                            <h4><i class="fa-solid fa-plane-departure" style="color: #10B981;"></i> Viagem para Fortaleza</h4>
+                            <span style="color: #10B981; font-weight: 700;">80%</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 80%; background: #10B981;"></div></div>
+                        <div class="progress-stats"><span>Acumulado: R$ 4.000,00</span><span>Alvo: R$ 5.000,00 (Jun 2026)</span></div>
+                    </div>
                 </div>
             </div>
 
+            <!-- ABA: CONFIGURAÇÕES -->
             <div id="view-configuracoes" class="view-section">
                 <div class="settings-grid">
                     <div class="profile-card glass-panel">
@@ -201,33 +184,44 @@
                     <div class="form-panel glass-panel">
                         <h3 style="margin-bottom: 24px;">Dados da Conta</h3>
                         <form id="settingsForm">
-                            <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-                                <div class="input-group" style="flex: 1; margin: 0;"><label>Nome</label><input type="text" placeholder="Seu nome"></div>
-                                <div class="input-group" style="flex: 1; margin: 0;"><label>Sobrenome</label><input type="text" placeholder="Seu sobrenome"></div>
+                            <div style="display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;">
+                                <div class="input-group" style="flex: 1; min-width: 150px; margin: 0;"><label>Nome</label><input type="text" placeholder="Seu nome"></div>
+                                <div class="input-group" style="flex: 1; min-width: 150px; margin: 0;"><label>Sobrenome</label><input type="text" placeholder="Seu sobrenome"></div>
                             </div>
                             <div class="input-group" style="margin-bottom: 24px;"><label>E-mail</label><input type="email" disabled style="opacity: 0.7;"></div>
-                            <button type="submit" class="btn-primary" style="margin-top: 16px; width: auto;"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+                            <button type="submit" class="btn-modern btn-success-gradient" style="margin-top: 16px; width: 100%;"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
                         </form>
                     </div>
                 </div>
             </div>
+            
+            <!-- Outras abas (Receitas, Despesas, Categorias, Relatórios) seguem a mesma lógica estrutural -->
+             <div id="view-receitas" class="view-section"><div class="toolbar"><h3 style="font-weight: 600;">Gestão de Receitas</h3></div><div class="table-container glass-panel"><div class="table-responsive"><table id="tableReceitas"><thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Valor</th><th>Ações</th></tr></thead><tbody></tbody></table></div></div></div>
+             <div id="view-despesas" class="view-section"><div class="toolbar"><h3 style="font-weight: 600;">Gestão de Despesas</h3></div><div class="table-container glass-panel"><div class="table-responsive"><table id="tableDespesas"><thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Valor</th><th>Ações</th></tr></thead><tbody></tbody></table></div></div></div>
+             <div id="view-categorias" class="view-section"><div class="glass-panel" style="padding: 40px; text-align: center; border-radius: 20px;"><i class="fa-solid fa-tags" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i><h2>Controle de Orçamento</h2></div></div>
+             <div id="view-relatorios" class="view-section"><div class="glass-panel" style="padding: 40px; text-align: center; border-radius: 20px;"><i class="fa-solid fa-chart-area" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i><h2>Relatórios Avançados</h2></div></div>
+
         </main>
     </div>
 
+    <!-- IA WIDGET (REFEITO PARA MOBILE) -->
     <button class="ai-widget-btn" id="toggleAiBtn"><i class="fa-solid fa-robot"></i></button>
     
     <div class="ai-chat-window" id="aiChatWindow">
         <div class="ai-header">
-            <div style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 50%;">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 50%;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                    <h4 style="margin:0; font-size: 1.05rem;">FinAI Assistente</h4>
+                    <span style="font-size: 0.8rem; opacity: 0.9;">Online</span>
+                </div>
             </div>
-            <div>
-                <h4 style="margin:0; font-size: 1rem;">FinAI Assistente</h4>
-                <span style="font-size: 0.75rem; opacity: 0.8;">Online e analisando dados...</span>
-            </div>
+            <button class="close-chat-mobile" id="closeChatMobileBtn"><i class="fa-solid fa-chevron-down"></i></button>
         </div>
         <div class="ai-body" id="aiChatBody">
-            <div class="ai-msg bot">Olá! Eu sou a sua inteligência artificial financeira. Estou analisando seu fluxo de caixa e suas metas. Como posso ajudar você hoje?</div>
+            <div class="ai-msg bot">Olá, Diogo! Eu sou a sua inteligência artificial financeira. Notei sua meta da Casa em Fortaleza para 2029. Como posso ajudar com sua estratégia financeira hoje?</div>
         </div>
         <div class="ai-input-area">
             <input type="text" id="aiInputMsg" placeholder="Pergunte sobre suas finanças...">

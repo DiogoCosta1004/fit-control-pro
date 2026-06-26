@@ -231,26 +231,27 @@ function renderizarTabelaGenerica(tbodyId, dados) {
         const bgBadge = t.tipo === 'receita' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)';
 
         tr.innerHTML = `
-            <td><strong>${t.descricao}</strong></td>
-            <td>${t.categoria}</td>
-            <td>${formatDateBr(t.data)}</td>
-            <td style="color: ${corValor}; font-weight: 600;">${sinal} ${formatBRL(t.valor)}</td>
-            <td><span style="background: ${bgBadge}; padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; color: ${corValor}; text-transform: capitalize;">${t.tipo}</span></td>
+            <td data-label="Descrição"><strong>${t.descricao}</strong></td>
+            <td data-label="Categoria">${t.categoria}</td>
+            <td data-label="Data">${formatDateBr(t.data)}</td>
+            <td data-label="Valor" style="color: ${corValor}; font-weight: 600;">${sinal} ${formatBRL(t.valor)}</td>
+            <td data-label="Tipo"><span style="background: ${bgBadge}; padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; color: ${corValor}; text-transform: capitalize;">${t.tipo}</span></td>
         `;
         tbody.appendChild(tr);
     });
 }
 
 function renderizarTabelaEspecifica(viewId, dados, tipo) {
-    const view = document.getElementById(viewId);
-    if(!view) return;
-    const tbody = view.querySelector('tbody');
+    const tableId = tipo === 'receita' ? 'tableReceitas' : 'tableDespesas';
+    const table = document.getElementById(tableId);
+    if(!table) return;
+    const tbody = table.querySelector('tbody');
     if(!tbody) return;
     
     tbody.innerHTML = '';
     
     if (dados.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Nenhuma ${tipo} cadastrada.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Nenhuma ${tipo} cadastrada.</td></tr>`;
         return;
     }
 
@@ -258,17 +259,15 @@ function renderizarTabelaEspecifica(viewId, dados, tipo) {
         const tr = document.createElement('tr');
         const corValor = tipo === 'receita' ? 'var(--success)' : 'var(--error)';
         const sinal = tipo === 'receita' ? '+' : '-';
-        const iconStatus = tipo === 'receita' ? '<i class="fa-solid fa-circle-check"></i> Efetuado' : '<i class="fa-solid fa-clock"></i> Pendente';
         
         tr.innerHTML = `
-            <td><strong>${t.descricao}</strong></td>
-            <td>${t.categoria}</td>
-            <td>${formatDateBr(t.data)}</td>
-            <td><span style="color: ${corValor};">${iconStatus}</span></td>
-            <td style="color: ${corValor}; font-weight: 600;">${sinal} ${formatBRL(t.valor)}</td>
-            <td style="text-align: right;">
-                <button onclick="window.editarTransacao('${t.id}')" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; margin-right:10px;"><i class="fa-solid fa-pen"></i></button>
-                <button onclick="window.deletarDocumento('transactions', '${t.id}')" style="background:transparent; border:none; color:var(--error); cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+            <td data-label="Descrição"><strong>${t.descricao}</strong></td>
+            <td data-label="Categoria">${t.categoria}</td>
+            <td data-label="Data">${formatDateBr(t.data)}</td>
+            <td data-label="Valor" style="color: ${corValor}; font-weight: 600;">${sinal} ${formatBRL(t.valor)}</td>
+            <td data-label="Ações" style="text-align: right;">
+                <button onclick="window.editarTransacao('${t.id}')" style="background:var(--cards); padding:8px 12px; border-radius:8px; border:1px solid var(--border); color:var(--text); cursor:pointer; margin-right:5px;"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="window.deletarDocumento('transactions', '${t.id}')" style="background:rgba(239, 68, 68, 0.1); padding:8px 12px; border-radius:8px; border:1px solid var(--border); color:var(--error); cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
             </td>
         `;
         tbody.appendChild(tr);
@@ -507,9 +506,40 @@ function configurarData() {
 function configurarMenuMobile() {
     const toggleBtn = document.getElementById('toggleSidebar');
     const sidebar = document.getElementById('sidebar');
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
     }
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        });
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', closeSidebar);
+    }
+
+    // Fecha ao clicar em um link do menu no celular
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            if(window.innerWidth <= 768) closeSidebar();
+        });
+    });
+}
+
+// ATUALIZAÇÃO: Fechar o Chat de IA no celular
+const closeChatMobileBtn = document.getElementById('closeChatMobileBtn');
+if (closeChatMobileBtn) {
+    closeChatMobileBtn.addEventListener('click', () => {
+        document.getElementById('aiChatWindow').classList.remove('open');
+        document.getElementById('toggleAiBtn').innerHTML = '<i class="fa-solid fa-robot"></i>';
+    });
 }
 
 async function realizarLogout(e) {
