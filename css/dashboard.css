@@ -346,3 +346,18 @@ tr:hover td {
         display: block;
     }
 }
+
+/* Controle de Navegação SPA */
+.view-section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.view-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

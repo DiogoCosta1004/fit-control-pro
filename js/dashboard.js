@@ -548,4 +548,72 @@ function initCharts() {
         },
         options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right' } } }
     });
+
+    // ==========================================
+// 7. INTERAÇÕES DE UI: IA E FILTROS DE TEMPO
+// ==========================================
+
+// Controlador do Chat da IA
+const toggleAiBtn = document.getElementById('toggleAiBtn');
+const aiChatWindow = document.getElementById('aiChatWindow');
+const aiSendBtn = document.getElementById('aiSendBtn');
+const aiInputMsg = document.getElementById('aiInputMsg');
+const aiChatBody = document.getElementById('aiChatBody');
+
+if(toggleAiBtn && aiChatWindow) {
+    toggleAiBtn.addEventListener('click', () => {
+        aiChatWindow.classList.toggle('open');
+        if(aiChatWindow.classList.contains('open')) {
+            toggleAiBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        } else {
+            toggleAiBtn.innerHTML = '<i class="fa-solid fa-robot"></i>';
+        }
+    });
+}
+
+function enviarMensagemIA() {
+    const msg = aiInputMsg.value.trim();
+    if(!msg) return;
+
+    // 1. Renderiza a mensagem do usuário
+    aiChatBody.innerHTML += `<div class="ai-msg user">${msg}</div>`;
+    aiInputMsg.value = '';
+    aiChatBody.scrollTop = aiChatBody.scrollHeight; // Rola pra baixo
+
+    // 2. Simula o "Digitando..." da IA (Aqui vamos plugar a API do Gemini depois)
+    const typingId = 'typing-' + Date.now();
+    setTimeout(() => {
+        aiChatBody.innerHTML += `<div class="ai-msg bot" id="${typingId}">Analisando seus dados... <i class="fa-solid fa-circle-notch fa-spin"></i></div>`;
+        aiChatBody.scrollTop = aiChatBody.scrollHeight;
+        
+        // Simulação de resposta provisória
+        setTimeout(() => {
+            document.getElementById(typingId).remove();
+            aiChatBody.innerHTML += `<div class="ai-msg bot">Ainda estou em fase de testes da integração de API, mas vi que sua meta é ousada! Quando conectarmos o motor de IA real, vou calcular se seu aporte atual é suficiente para atingir seus objetivos nos prazos estipulados.</div>`;
+            aiChatBody.scrollTop = aiChatBody.scrollHeight;
+        }, 1500);
+    }, 500);
+}
+
+if(aiSendBtn) aiSendBtn.addEventListener('click', enviarMensagemIA);
+if(aiInputMsg) aiInputMsg.addEventListener('keypress', (e) => { if(e.key === 'Enter') enviarMensagemIA(); });
+
+// Controlador de Filtros Temporais
+const filterBtns = document.querySelectorAll('.filter-btn');
+let periodoAtivo = 'mensal'; // Default
+
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        periodoAtivo = e.target.getAttribute('data-period');
+        
+        // Aqui notificamos o usuário que o filtro mudou.
+        // No próximo passo, vamos injetar as datas de Start e End direto no `where()` do Firebase!
+        Toast.fire({
+            icon: 'info',
+            title: `Filtro alterado para: ${periodoAtivo.charAt(0).toUpperCase() + periodoAtivo.slice(1)}`
+        });
+    });
+});
 }

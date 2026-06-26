@@ -11,13 +11,11 @@
     
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
-
+    
     <style>
-        /* Estilos extras para as novas abas (Você pode mover para o dashboard.css depois) */
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
         .search-box { display: flex; align-items: center; background: rgba(15, 23, 42, 0.6); padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border); width: 300px; }
         .search-box input { background: transparent; border: none; color: var(--text); margin-left: 10px; width: 100%; outline: none; }
-        
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 24px; }
         .progress-card { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
         .progress-header { display: flex; justify-content: space-between; align-items: center; }
@@ -25,23 +23,18 @@
         .progress-bar-bg { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; }
         .progress-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
         .progress-stats { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); }
-        
         .settings-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; }
         .profile-card { text-align: center; padding: 32px; }
         .profile-card img { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--primary); margin-bottom: 16px; }
         .form-panel { padding: 32px; }
-        
-        @media (max-width: 768px) {
-            .settings-grid { grid-template-columns: 1fr; }
-            .search-box { width: 100%; }
-        }
+        @media (max-width: 768px) { .settings-grid { grid-template-columns: 1fr; } .search-box { width: 100%; } }
     </style>
 </head>
 <body class="dashboard-body">
 
     <div id="pageLoader" class="page-loader">
         <div class="loader-spinner"></div>
-        <p>Carregando seus dados...</p>
+        <p>Carregando ecossistema...</p>
     </div>
 
     <div class="dashboard-layout">
@@ -77,95 +70,65 @@
                 </div>
                 
                 <div class="topbar-right">
-                    <button class="btn-icon"><i class="fa-regular fa-bell"></i></button>
-                    <div class="user-profile">
+                    <div class="time-filters">
+                        <button class="filter-btn" data-period="semanal">Semanal</button>
+                        <button class="filter-btn active" data-period="mensal">Mensal</button>
+                        <button class="filter-btn" data-period="anual">Anual</button>
+                    </div>
+
+                    <div class="user-profile" style="margin-left: 16px;">
                         <div class="user-info">
-                            <span class="user-name" id="displayUserName">Diogo</span>
-                            <span class="user-plan">Premium</span>
+                            <span class="user-name" id="displayUserName">Carregando...</span>
+                            <span class="user-plan">Pro</span>
                         </div>
-                        <img src="https://ui-avatars.com/api/?name=Diogo&background=4F46E5&color=fff" alt="Perfil" id="displayUserPhoto" class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=User&background=4F46E5&color=fff" alt="Perfil" id="displayUserPhoto" class="user-avatar">
                     </div>
                 </div>
             </header>
 
             <div id="view-dashboard" class="view-section active">
                 <section class="summary-cards">
-                    <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+                    <div class="card glass-panel">
                         <div class="card-icon bg-primary-light"><i class="fa-solid fa-building-columns text-primary"></i></div>
-                        <div class="card-details">
-                            <p>Saldo Atual</p>
-                            <h3 id="cardSaldo">R$ 0,00</h3>
-                        </div>
+                        <div class="card-details"><p>Saldo Atual</p><h3 id="cardSaldo">R$ 0,00</h3></div>
                     </div>
-                    <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="card glass-panel">
                         <div class="card-icon bg-success-light"><i class="fa-solid fa-arrow-trend-up text-success"></i></div>
-                        <div class="card-details">
-                            <p>Receitas (Mês)</p>
-                            <h3 id="cardReceitas">R$ 0,00</h3>
-                        </div>
+                        <div class="card-details"><p>Receitas</p><h3 id="cardReceitas">R$ 0,00</h3></div>
                     </div>
-                    <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+                    <div class="card glass-panel">
                         <div class="card-icon bg-error-light"><i class="fa-solid fa-arrow-trend-down text-error"></i></div>
-                        <div class="card-details">
-                            <p>Despesas (Mês)</p>
-                            <h3 id="cardDespesas">R$ 0,00</h3>
-                        </div>
+                        <div class="card-details"><p>Despesas</p><h3 id="cardDespesas">R$ 0,00</h3></div>
                     </div>
-                    <div class="card glass-panel animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+                    <div class="card glass-panel">
                         <div class="card-icon bg-secondary-light"><i class="fa-solid fa-piggy-bank text-secondary"></i></div>
-                        <div class="card-details">
-                            <p>Balanço (%)</p>
-                            <h3 id="cardEconomia">0%</h3>
-                        </div>
+                        <div class="card-details"><p>Balanço (%)</p><h3 id="cardEconomia">0%</h3></div>
                     </div>
                 </section>
 
-                <section class="quick-actions animate__animated animate__fadeIn">
-                    <button class="btn-primary btn-success" id="btnNovaReceita">
-                        <i class="fa-solid fa-plus"></i> Nova Receita
-                    </button>
-                    <button class="btn-primary btn-danger" id="btnNovaDespesa">
-                        <i class="fa-solid fa-minus"></i> Nova Despesa
-                    </button>
+                <section class="quick-actions">
+                    <button class="btn-primary btn-success" id="btnNovaReceita"><i class="fa-solid fa-plus"></i> Nova Receita</button>
+                    <button class="btn-primary btn-danger" id="btnNovaDespesa"><i class="fa-solid fa-minus"></i> Nova Despesa</button>
                 </section>
 
                 <div class="dashboard-grid">
-                    <div class="chart-container glass-panel animate__animated animate__fadeInLeft">
-                        <div class="section-header">
-                            <h3>Fluxo de Caixa</h3>
-                        </div>
-                        <div style="position: relative; height: 300px; width: 100%;">
-                            <canvas id="cashflowChart"></canvas>
-                        </div>
+                    <div class="chart-container glass-panel">
+                        <div class="section-header"><h3>Fluxo de Caixa</h3></div>
+                        <div style="position: relative; height: 300px; width: 100%;"><canvas id="cashflowChart"></canvas></div>
                     </div>
-
-                    <div class="chart-container glass-panel animate__animated animate__fadeInRight">
-                        <div class="section-header">
-                            <h3>Despesas por Categoria</h3>
-                        </div>
-                        <div style="position: relative; height: 300px; width: 100%;">
-                            <canvas id="categoryChart"></canvas>
-                        </div>
+                    <div class="chart-container glass-panel">
+                        <div class="section-header"><h3>Despesas por Categoria</h3></div>
+                        <div style="position: relative; height: 300px; width: 100%;"><canvas id="categoryChart"></canvas></div>
                     </div>
-
-                    <div class="table-container glass-panel animate__animated animate__fadeInUp full-width">
-                        <div class="section-header">
-                            <h3>Movimentações Recentes</h3>
-                            <a href="#" class="view-all text-secondary">Ver todas</a>
-                        </div>
+                    <div class="table-container glass-panel full-width">
+                        <div class="section-header"><h3>Movimentações Recentes</h3></div>
                         <div class="table-responsive">
                             <table id="transactionsTable">
                                 <thead>
-                                    <tr>
-                                        <th>Descrição</th>
-                                        <th>Categoria</th>
-                                        <th>Data</th>
-                                        <th>Valor</th>
-                                        <th>Tipo</th>
-                                    </tr>
+                                    <tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Valor</th><th>Tipo</th></tr>
                                 </thead>
                                 <tbody id="transactionsBody">
-                                    <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Nenhuma movimentação encontrada.</td></tr>
+                                    <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Carregando...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -173,218 +136,107 @@
                 </div>
             </div>
 
-            <div id="view-receitas" class="view-section" style="display: none;">
-                <div class="toolbar animate__animated animate__fadeIn">
-                    <div class="search-box">
-                        <i class="fa-solid fa-magnifying-glass text-muted"></i>
-                        <input type="text" placeholder="Buscar receita...">
-                    </div>
-                    <button class="btn-primary btn-success" style="width: auto;" onclick="document.getElementById('btnNovaReceita').click()">
-                        <i class="fa-solid fa-plus"></i> Nova Receita
-                    </button>
+            <div id="view-receitas" class="view-section">
+                <div class="toolbar">
+                    <h3 style="font-weight: 600;">Gestão de Receitas</h3>
+                    <button class="btn-primary btn-success" style="width: auto;" onclick="document.getElementById('btnNovaReceita').click()"><i class="fa-solid fa-plus"></i> Nova Receita</button>
                 </div>
-                <div class="table-container glass-panel animate__animated animate__fadeInUp">
+                <div class="table-container glass-panel">
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Descrição</th>
-                                    <th>Origem</th>
-                                    <th>Data</th>
-                                    <th>Status</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Salário</strong></td>
-                                    <td>Pagamento</td>
-                                    <td>05/06/2026</td>
-                                    <td><span style="color: var(--success);"><i class="fa-solid fa-circle-check"></i> Recebido</span></td>
-                                    <td style="color: var(--success); font-weight: 600;">+ R$ 5.500,00</td>
-                                </tr>
-                            </tbody>
+                            <thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Status</th><th>Valor</th><th>Ações</th></tr></thead>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <div id="view-despesas" class="view-section" style="display: none;">
-                <div class="toolbar animate__animated animate__fadeIn">
-                    <div class="search-box">
-                        <i class="fa-solid fa-magnifying-glass text-muted"></i>
-                        <input type="text" placeholder="Buscar despesa...">
-                    </div>
-                    <button class="btn-primary btn-danger" style="width: auto;" onclick="document.getElementById('btnNovaDespesa').click()">
-                        <i class="fa-solid fa-minus"></i> Nova Despesa
-                    </button>
+            <div id="view-despesas" class="view-section">
+                <div class="toolbar">
+                    <h3 style="font-weight: 600;">Gestão de Despesas</h3>
+                    <button class="btn-primary btn-danger" style="width: auto;" onclick="document.getElementById('btnNovaDespesa').click()"><i class="fa-solid fa-minus"></i> Nova Despesa</button>
                 </div>
-                <div class="table-container glass-panel animate__animated animate__fadeInUp">
+                <div class="table-container glass-panel">
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Descrição</th>
-                                    <th>Categoria</th>
-                                    <th>Vencimento</th>
-                                    <th>Status</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Fatura Cartão</strong></td>
-                                    <td>Cartão de Crédito</td>
-                                    <td>10/06/2026</td>
-                                    <td><span style="color: var(--warning);"><i class="fa-solid fa-clock"></i> Pendente</span></td>
-                                    <td style="color: var(--error); font-weight: 600;">- R$ 1.250,00</td>
-                                </tr>
-                            </tbody>
+                            <thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Status</th><th>Valor</th><th>Ações</th></tr></thead>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <div id="view-categorias" class="view-section" style="display: none;">
-                <div class="toolbar animate__animated animate__fadeIn">
-                    <h3 style="font-weight: 600;">Limites de Orçamento Mensal</h3>
-                    <button class="btn-primary" style="width: auto;"><i class="fa-solid fa-pen"></i> Editar Limites</button>
-                </div>
-                
-                <div class="grid-cards animate__animated animate__fadeInUp">
-                    <div class="progress-card glass-panel">
-                        <div class="progress-header">
-                            <h4><i class="fa-solid fa-house" style="color: #8B5CF6;"></i> Moradia</h4>
-                            <span style="font-weight: 600;">85%</span>
-                        </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill" style="width: 85%; background: #8B5CF6;"></div>
-                        </div>
-                        <div class="progress-stats">
-                            <span>Gasto: R$ 1.700</span>
-                            <span>Limite: R$ 2.000</span>
-                        </div>
-                    </div>
-
-                    <div class="progress-card glass-panel">
-                        <div class="progress-header">
-                            <h4><i class="fa-solid fa-utensils" style="color: #F59E0B;"></i> Alimentação</h4>
-                            <span style="font-weight: 600;">45%</span>
-                        </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill" style="width: 45%; background: #F59E0B;"></div>
-                        </div>
-                        <div class="progress-stats">
-                            <span>Gasto: R$ 450</span>
-                            <span>Limite: R$ 1.000</span>
-                        </div>
-                    </div>
+            <div id="view-categorias" class="view-section">
+                <div class="glass-panel" style="padding: 40px; text-align: center; border-radius: 20px;">
+                    <i class="fa-solid fa-tags" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+                    <h2>Controle de Orçamento</h2>
+                    <p class="text-muted">Integração do motor de limites visuais em desenvolvimento.</p>
                 </div>
             </div>
 
-            <div id="view-metas" class="view-section" style="display: none;">
-                <div class="toolbar animate__animated animate__fadeIn">
+            <div id="view-metas" class="view-section">
+                <div class="toolbar">
                     <h3 style="font-weight: 600;">Seus Objetivos</h3>
-                    <button class="btn-primary btn-success" style="width: auto;"><i class="fa-solid fa-flag-checkered"></i> Criar Nova Meta</button>
+                    <button class="btn-primary btn-success" style="width: auto;"><i class="fa-solid fa-flag-checkered"></i> Nova Meta</button>
                 </div>
-                
-                <div class="grid-cards animate__animated animate__fadeInUp">
-                    <div class="progress-card glass-panel">
-                        <div class="progress-header">
-                            <h4><i class="fa-solid fa-house-chimney text-secondary"></i> Casa em Fortaleza</h4>
-                            <span class="text-secondary" style="font-weight: 700;">25%</span>
-                        </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill" style="width: 25%; background: var(--secondary);"></div>
-                        </div>
-                        <div class="progress-stats">
-                            <span>Acumulado: R$ 37.500,00</span>
-                            <span>Alvo: R$ 150.000,00 (2030)</span>
-                        </div>
+                <div class="grid-cards">
                     </div>
-
-                    <div class="progress-card glass-panel">
-                        <div class="progress-header">
-                            <h4><i class="fa-solid fa-plane-departure" style="color: #10B981;"></i> Viagem de Férias</h4>
-                            <span style="color: #10B981; font-weight: 700;">80%</span>
-                        </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill" style="width: 80%; background: #10B981;"></div>
-                        </div>
-                        <div class="progress-stats">
-                            <span>Acumulado: R$ 4.000,00</span>
-                            <span>Alvo: R$ 5.000,00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <div id="view-relatorios" class="view-section" style="display: none;">
-                <div class="glass-panel animate__animated animate__fadeInUp" style="padding: 40px; text-align: center; border-radius: 20px;">
+            <div id="view-relatorios" class="view-section">
+                <div class="glass-panel" style="padding: 40px; text-align: center; border-radius: 20px;">
                     <i class="fa-solid fa-chart-area" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
                     <h2>Relatórios Avançados</h2>
-                    <p class="text-muted" style="margin-top: 10px; max-width: 500px; margin-left: auto; margin-right: auto;">
-                        Em breve, você poderá exportar PDFs detalhados para declaração de imposto de renda e comparar meses anteriores.
-                    </p>
-                    <button class="btn-primary" style="width: auto; margin: 30px auto 0;" disabled>
-                        <i class="fa-solid fa-lock"></i> Desbloquear no Plano Pro
-                    </button>
+                    <p class="text-muted">Exportação PDF e Dre em breve.</p>
                 </div>
             </div>
 
-            <div id="view-configuracoes" class="view-section" style="display: none;">
-                <div class="settings-grid animate__animated animate__fadeInUp">
-                    
+            <div id="view-configuracoes" class="view-section">
+                <div class="settings-grid">
                     <div class="profile-card glass-panel">
-                        <img src="https://ui-avatars.com/api/?name=Diogo&background=4F46E5&color=fff" alt="Perfil" id="settingsPhoto">
+                        <img src="" alt="Perfil" id="settingsPhoto">
                         <h3 style="margin-bottom: 5px;">Configurar Perfil</h3>
-                        <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 20px;">Atualize sua foto e dados pessoais</p>
-                        <button class="btn-primary" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border);"><i class="fa-solid fa-camera"></i> Alterar Foto</button>
+                        <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 20px;">Atualize seus dados</p>
                     </div>
-
                     <div class="form-panel glass-panel">
                         <h3 style="margin-bottom: 24px;">Dados da Conta</h3>
                         <form id="settingsForm">
                             <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-                                <div class="input-group" style="flex: 1; margin: 0;">
-                                    <label>Nome</label>
-                                    <input type="text" placeholder="Seu nome" value="Diogo">
-                                </div>
-                                <div class="input-group" style="flex: 1; margin: 0;">
-                                    <label>Sobrenome</label>
-                                    <input type="text" placeholder="Seu sobrenome">
-                                </div>
+                                <div class="input-group" style="flex: 1; margin: 0;"><label>Nome</label><input type="text" placeholder="Seu nome"></div>
+                                <div class="input-group" style="flex: 1; margin: 0;"><label>Sobrenome</label><input type="text" placeholder="Seu sobrenome"></div>
                             </div>
-                            <div class="input-group" style="margin-bottom: 24px;">
-                                <label>E-mail de Acesso</label>
-                                <input type="email" placeholder="seu@email.com" disabled style="opacity: 0.7;">
-                                <small class="text-muted" style="display: block; margin-top: 5px;">Para alterar o e-mail, entre em contato com o suporte.</small>
-                            </div>
-                            
-                            <hr style="border-color: var(--border); margin: 24px 0;">
-                            
-                            <h3 style="margin-bottom: 24px;">Preferências</h3>
-                            <div class="input-group">
-                                <label>Moeda Padrão</label>
-                                <select style="width: 100%; padding: 1rem; background: var(--input-bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text);">
-                                    <option value="BRL">Real (R$)</option>
-                                    <option value="USD">Dólar (US$)</option>
-                                    <option value="EUR">Euro (€)</option>
-                                </select>
-                            </div>
-
-                            <button type="submit" class="btn-primary" style="margin-top: 32px; width: auto;"><i class="fa-solid fa-floppy-disk"></i> Salvar Alterações</button>
+                            <div class="input-group" style="margin-bottom: 24px;"><label>E-mail</label><input type="email" disabled style="opacity: 0.7;"></div>
+                            <button type="submit" class="btn-primary" style="margin-top: 16px; width: auto;"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
                         </form>
                     </div>
                 </div>
             </div>
-
         </main>
+    </div>
+
+    <button class="ai-widget-btn" id="toggleAiBtn"><i class="fa-solid fa-robot"></i></button>
+    
+    <div class="ai-chat-window" id="aiChatWindow">
+        <div class="ai-header">
+            <div style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 50%;">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <div>
+                <h4 style="margin:0; font-size: 1rem;">FinAI Assistente</h4>
+                <span style="font-size: 0.75rem; opacity: 0.8;">Online e analisando dados...</span>
+            </div>
+        </div>
+        <div class="ai-body" id="aiChatBody">
+            <div class="ai-msg bot">Olá! Eu sou a sua inteligência artificial financeira. Estou analisando seu fluxo de caixa e suas metas. Como posso ajudar você hoje?</div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" id="aiInputMsg" placeholder="Pergunte sobre suas finanças...">
+            <button id="aiSendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <script type="module" src="js/firebase.js"></script>
     <script type="module" src="js/dashboard.js"></script>
 </body>
